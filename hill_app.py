@@ -63,7 +63,8 @@ def hill_decrypt(cipher_text, key):
     decrypted_matrix = (np.dot(cipher_matrix, key_matrix_inv) % 26).flatten()
     decrypted_text = "".join(chr(num + 65) for num in decrypted_matrix)
     
-    return decrypted_text
+    # Hapus padding "X" yang ditambahkan selama enkripsi
+    return decrypted_text.rstrip("X")
 
 # Streamlit App
 st.title("Hill Cipher Encryptor & Decryptor")
