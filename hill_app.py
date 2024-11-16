@@ -8,6 +8,16 @@ def mod_inverse(a, m):
             return x
     return None
 
+def validate_key_matrix(key):
+    """Memvalidasi matriks kunci Hill Cipher."""
+    key_matrix = np.array(key).reshape(int(len(key)**0.5), -1)
+    determinant = int(np.round(np.linalg.det(key_matrix))) % 26
+    if np.gcd(determinant, 26) != 1:
+        raise ValueError(
+            f"Determinant matriks adalah {determinant}, tidak memiliki invers modulo 26. Pilih matriks lain."
+        )
+    return True
+
 def hill_encrypt(message, key):
     """Fungsi enkripsi Hill Cipher."""
     message = message.upper().replace(" ", "")
@@ -15,7 +25,7 @@ def hill_encrypt(message, key):
     
     # Pastikan panjang pesan sesuai dengan ukuran matriks
     while len(message) % key_size != 0:
-        message += "X"
+        message += "X"  # Tambahkan padding X
     
     # Ubah pesan menjadi angka (A=0, B=1, ..., Z=25)
     message_vector = [ord(char) - 65 for char in message]
@@ -61,7 +71,7 @@ st.title("Hill Cipher Encryptor & Decryptor")
 st.sidebar.header("Input")
 option = st.sidebar.radio("Pilih operasi:", ["Enkripsi", "Dekripsi"])
 message = st.sidebar.text_input("Masukkan pesan (tanpa spasi):", "")
-key_input = st.sidebar.text_input("Masukkan kunci (sebagai list, contoh: 6,24,1,18):", "")
+key_input = st.sidebar.text_input("Masukkan kunci (sebagai list, contoh: 6,24,1,13):", "")
 
 if st.sidebar.button("Proses"):
     try:
@@ -72,6 +82,9 @@ if st.sidebar.button("Proses"):
             key_size = int(len(key)**0.5)
             if key_size * key_size != len(key):
                 raise ValueError("Matriks kunci harus berupa matriks persegi (2x2, 3x3, dll).")
+            
+            # Validasi matriks
+            validate_key_matrix(key)
             
             if option == "Enkripsi":
                 cipher_text = hill_encrypt(message, key)
