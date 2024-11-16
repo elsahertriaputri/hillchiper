@@ -59,6 +59,7 @@ def hill_decrypt(cipher_text, key):
 st.title("Hill Cipher Encryptor & Decryptor")
 
 st.sidebar.header("Input")
+option = st.sidebar.radio("Pilih operasi:", ["Enkripsi", "Dekripsi"])
 message = st.sidebar.text_input("Masukkan pesan (tanpa spasi):", "")
 key_input = st.sidebar.text_input("Masukkan kunci (sebagai list, contoh: 6,24,1,18):", "")
 
@@ -72,7 +73,6 @@ if st.sidebar.button("Proses"):
             if key_size * key_size != len(key):
                 raise ValueError("Matriks kunci harus berupa matriks persegi (2x2, 3x3, dll).")
             
-            option = st.sidebar.radio("Pilih operasi:", ["Enkripsi", "Dekripsi"])
             if option == "Enkripsi":
                 cipher_text = hill_encrypt(message, key)
                 st.success(f"Teks terenkripsi: {cipher_text}")
