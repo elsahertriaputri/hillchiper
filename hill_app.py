@@ -67,7 +67,7 @@ def hill_decrypt(cipher_text, key):
     return decrypted_text.rstrip("X")
 
 # Streamlit App
-st.title("Hill Cipher Encryptor & Decryptor")
+st.title("Cipher Encryptor & Decryptor")
 
 st.sidebar.header("Input")
 option = st.sidebar.radio("Pilih operasi:", ["Enkripsi", "Dekripsi"])
